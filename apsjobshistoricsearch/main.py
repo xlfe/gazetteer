@@ -15,7 +15,10 @@
 # limitations under the License.
 #
 import webapp2
+import json
+import re
 import datetime
+from collections import defaultdict
 from google.appengine.ext import ndb
 
 class EmploymentNotice(ndb.Model):
@@ -41,37 +44,79 @@ class searchindex(ndb.Model):
     scores = ndb.TextProperty(indexed=False,required=True)
 
 
+def ngrams(tokens, MIN_N=3, MAX_N=3):
+    n_tokens = len(tokens)
+    for i in xrange(n_tokens):
+        for j in xrange(i+MIN_N, min(n_tokens, i+MAX_N)+1):
+            yield tokens[i:j]
+
+def calc_intersect(results,number=10):
+
+    intersect = defaultdict(int)
+    for r in results:
+
+        if r is None:
+            continue
+
+        scores = r.scores.split('],')
+
+        for score in scores:
+
+            nn,s = score[2:].split(',')
+            nn= int(nn)
+            s=float(s.replace(']',''))
+
+            intersect[nn] += 1
+
+
+    return sorted(intersect,key=lambda k:intersect[k],reverse=False)[:number]
+
+
+
+
+
+
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
 
-        en = EmploymentNotice()
-        en.salary = 'some'
-        en.NoticeNumber= 192372832
-        en.classification = 'APS6'
-        en.PSGazette = 'PS4'
-        en.text ='somthig'
-        en.documentation ='somthig'
-        en.toapply ='somthig'
-        en.ending ='somthig'
-        en.closing_date = datetime.date(year=2012,month=02,day=03)
-        en.contact = 'none'
-        en.location = 'canberra'
-        en.jobtitle = 'manager'
-        en.department = 'dbcde'
-        en.page = '233'
-        en.jobtype = 'fulltimetext'
-        en.put()
 
-        #for i in range(10):
-        #    query = searchindex.query().fetch(500,keys_only=True)
-        #    ndb.delete_multi(query)
+        q = self.request.get('q')
+        term_count = defaultdict(int)
+        terms = []
 
-        #si = searchindex()
-        #si.token = 'abc'
-        #si.scores = 'hmm'
-        #si.put()
 
-        self.response.write('Hello world!')
+        for w in re.split('\W',re.sub('[^A-Za-z]+',' ',q)):
+            if len(w) > 2:
+                terms.extend([t for t in ngrams(w.lower())])
+
+
+
+        for t in terms:
+            term_count[t] += 1
+
+        later = []
+        for t in term_count:
+            later.append(searchindex.query().filter(searchindex.token==t).get_async())
+
+        results = []
+        for l in later:
+            results.append(l.get_result())
+
+
+        docs = calc_intersect(results)
+        later = []
+        for d in docs:
+            later.append(EmploymentNotice.query().filter(EmploymentNotice.NoticeNumber==d).get_async())
+
+        results = []
+        for l in later:
+            results.append(l.get_result().to_dict())
+
+
+
+
+        self.response.write(json.dumps(results,indent=1))
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)

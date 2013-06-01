@@ -8,8 +8,6 @@ column = sys.argv[1]
 
 tf = collections.defaultdict(lambda: collections.defaultdict(int))
 df = collections.defaultdict(int)
-docs = 0
-
 
 header = sys.stdin.readline().split(',')
 
@@ -28,13 +26,15 @@ def ngrams(tokens, MIN_N=3, MAX_N=3):
 
 for line in sys.stdin.readlines():
     nn = g(line,'NoticeNumber')
-    terms = []
-    for w in re.split('\W',g(re.sub('[0-9_]',' ',line),'ending')):
-        if len(w) > 2:
-            for t in ngrams(w.lower()):
-                tf[nn][t] += 1
-                terms.append(t)
-    for term in set(terms):
+    text = g(line,'ending').lower()
+    text = re.sub('[^a-z]',' ',text)
+
+    words = [w for w in re.split('\W',text) if len(w) > 3]
+
+    for word in words:
+        tf[nn][word] += 1
+
+    for term in set(words):
         df[term] += 1
 
 total = len(tf)
