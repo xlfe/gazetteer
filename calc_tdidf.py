@@ -3,6 +3,9 @@ import sys
 import re
 import collections
 import math
+from nltk.stem.wordnet import WordNetLemmatizer
+lmtzr = WordNetLemmatizer()
+
 
 column = sys.argv[1]
 
@@ -26,10 +29,10 @@ def ngrams(tokens, MIN_N=3, MAX_N=3):
 
 for line in sys.stdin.readlines():
     nn = g(line,'NoticeNumber')
-    text = g(line,'ending').lower()
+    text = g(line,column).lower()
     text = re.sub('[^a-z]',' ',text)
 
-    words = [w for w in re.split('\W',text) if len(w) > 3]
+    words = [lmtzr.lemmatize(w) for w in re.split('\W',text) if len(w) > 3]
 
     for word in words:
         tf[nn][word] += 1

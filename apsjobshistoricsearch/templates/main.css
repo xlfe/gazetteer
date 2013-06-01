@@ -1,0 +1,578 @@
+/* ==========================================================================
+   HTML5 Boilerplate styles - h5bp.com (generated via initializr.com)
+   ========================================================================== */
+
+html,
+button,
+input,
+select,
+textarea {
+    color: #222;
+}
+
+body {
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+a {
+    color: #0088cc;
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    color: #005580;
+    text-decoration: underline;
+}
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+img {
+    vertical-align: middle;
+}
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.chromeframe {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+body {
+    font: 16px/26px "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.wrapper {
+    width: 96%;
+    margin: 0 2%;
+}
+
+.header-container {
+    border-bottom: 9px solid #fff;
+}
+
+
+
+
+input.searchbox {
+    height: 1.5em;
+    width: 95%;
+    float:right;
+    margin-bottom: 2em;
+    background-color: rgba(0, 97, 204, 0.2);
+    font-size: x-large;
+
+}
+
+
+
+
+
+
+
+.footer-container,
+.main aside {
+    border-top: 10px solid #a00;
+    background: #eee;
+}
+.header-container {
+    background: #a00;
+}
+
+.title {
+    color: #fff;
+}
+
+/* ==============
+    MOBILE: Menu
+   ============== */
+
+nav ul {
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    display: block;
+    margin-bottom: 0px;
+    border-bottom: solid 1px #a00;
+    padding: 5px 0;
+
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+
+    color: #036;
+    background: #ddd;
+}
+
+nav a.active {
+    background: #fff;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* ==============
+    MOBILE: Main
+   ============== */
+
+.main {
+    padding-top: 0;
+    padding-bottom: 30px;
+}
+
+.main article h1 {
+    font-size: 2em;
+}
+
+.main span.byline {
+	float: right;
+	font-size: .75em;
+	margin-top: -20px;
+}
+
+.main aside {
+    color: #000;
+    padding: 0px 3% 10px 3%;
+    margin-bottom: 2em;
+}
+
+.main aside:last-child {
+    margin-bottom: 0;
+}
+
+.main aside ul {
+    padding-left: 4px;
+}
+
+.footer-container footer {
+    padding: 20px 0;
+}
+
+/* ===============
+    ALL: IE Fixes
+   =============== */
+
+.ie7 .title {
+    padding-top: 20px;
+}
+
+div.logo {
+    background: url('/logo.png');
+    background-repeat: no-repeat;
+    width: 264px;
+    height: 106px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+
+@media only screen and (min-width: 480px) {
+
+/* ====================
+    INTERMEDIATE: Menu
+   ==================== */
+
+    div.logo {
+        background: url('/logo.png');
+        background-size: 199px 80px;
+        width: 199px;
+        height: 80px;
+        margin: auto;
+        margin-bottom: 20px;
+        padding: 0px;
+    }
+
+     nav a {
+        float: right;
+        width: 32%;
+        padding: 0px 0;
+        margin: 0 1%;
+    }
+
+    nav li:first-child a {
+        margin-left: 0;
+    }
+
+    nav li:last-child a {
+        margin-right: 0;
+    }
+
+/* ========================
+    INTERMEDIATE: IE Fixes
+   ======================== */
+
+    nav ul li {
+        display: inline;
+    }
+
+    .oldie nav a {
+        margin: 0 0.7%;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+/* ====================
+    WIDE: CSS3 Effects
+   ==================== */
+
+    .main {
+        padding: 30px 0;
+    }
+
+    .header-container,
+    .main aside {
+        -webkit-box-shadow: 0 5px 10px #aaa;
+           -moz-box-shadow: 0 5px 10px #aaa;
+                box-shadow: 0 5px 10px #aaa;
+    }
+
+
+    div.logo {
+        position: absolute;
+        background: url('/logo.png');
+        background-size: 199px 80px;
+        width: 199px;
+        height: 80px;
+        margin: 0px;
+        padding: 0px;
+    }
+
+/* ============
+    WIDE: Menu
+   ============ */
+
+    .title {
+        float: left;
+    }
+
+    nav {
+        float: right;
+        width: 38%;
+    }
+
+    nav a {
+        float: right;
+        width: 32%;
+        padding: 9px 0;
+        margin: 0 1%;
+        border-bottom: none;
+    }
+
+
+/* ============
+    WIDE: Main
+   ============ */
+
+    .main article {
+        float: left;
+        width: 57%;
+    }
+
+    .main aside {
+        float: right;
+        width: 28%;
+    }
+}
+
+@media only screen and (min-width: 1140px) {
+
+/* ===============
+    Maximal Width
+   =============== */
+
+    .wrapper {
+        width: 1026px; /* 1140px - 10% for margins */
+        margin: 0 auto;
+    }
+}
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+.ir {
+    background-color: transparent;
+    border: 0;
+    overflow: hidden;
+    *text-indent: -9999px;
+}
+
+.ir:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 150%;
+}
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* ==========================================================================
+   Print styles
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links for images, or javascript/internal links
+     */
+
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group; /* h5bp.com/t */
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+
+
+/* Bootstrap */
+
+code {
+    padding: 2px 4px;
+    color: #d14;
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    display: inline;
+    white-space: pre;
+    font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
+}
+
+pre code {
+    color: #000;
+    white-space: pre;
+    background-color: transparent;
+    padding: 0;
+    border: 0;
+}
+pre {
+    background-color: #f7f7f9;
+    padding: 10px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    width: 800px;
+    border: 1px solid #e1e1e8;
+    margin-top: 0px;
+}
+div .highlight {
+    padding: 0px;
+    overflow-y: auto;
+    line-height: 16px;
+    width: 104%;
+}
+
+ul.tags {
+    margin-top: -1.4em;
+}
+ul.tags li {
+    list-style: none;
+}
+
+ul.tags.inline {
+    margin-top: 1em;
+    overflow: hidden;
+}
+
+ul.tags.inline li {
+    float: left;
+    display: inline-block;
+    list-style: none;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+ul.tags li a {
+    background-color: #ddd;
+    color: #005f6b;
+    border-radius: 3px;
+    padding: 3px 6px;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+ul.tags li a span {
+    vertical-align: super;
+    font-size: 0.8em;
+}
+
+aside code {
+	margin-left: -1.5em;
+}	
+
+
+div.post-links {
+	margin-top:1em;
+}
+
+div.post-links a {
+    background-color: #f3f3f3;
+    padding: 6px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+}
+
+div.post-links a:hover {
+    background-color: #fff;
+}
+
+div.post-links a.disabled {
+    color: #999;
+}
+
+li.frontpage-list {
+    list-style: square;
+}
+
+
+.fc-webicon { display: inline-block; background-size: 100%; width: 30px; height: 30px; text-indent: -999em; text-align: left; -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5); -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5); -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; margin-bottom: 5px; }
+.fc-webicon:hover { margin: -1px 0 1px; -moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25); -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25); }
+.fc-webicon.small { width: 20px; height: 20px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+.fc-webicon.large { width: 48px; height: 48px; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; }
+
+/* Github */
+.fc-webicon.github { background: url("/fc-webicon-github-m.png"); }
+
+/* LinkedIn */
+.fc-webicon.linkedin { background: url("/fc-webicon-linkedin-m.png"); }
+
+/* Mail */
+.fc-webicon.mail { background: url("/fc-webicon-mail-m.png"); }
+
+/* Twitter */
+.fc-webicon.twitter { background: url("/fc-webicon-twitter-m.png"); }
+.fc-webicon.rss { background: url("/fc-webicon-rss-m.png"); }
+

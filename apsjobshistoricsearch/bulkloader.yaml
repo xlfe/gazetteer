@@ -55,7 +55,7 @@ transformers:
 
   - property: salary
     external_name: salary
-    import_transform: str
+    import_transform: int
 
   - property: NoticeNumber
     external_name: NoticeNumber
@@ -68,6 +68,10 @@ transformers:
   - property: PSGazette
     external_name: PSGazette
     import_transform: str
+
+  - property: date_gazetted
+    external_name: date_gazetted
+    import_transform: transform.import_date_time('%d %b %Y')
 
   - property: text
     external_name: text
@@ -86,7 +90,7 @@ transformers:
     import_transform: db.Text
 
   - property: closing_date
-    external_name: closing_date
+    external_name: closing-date
     import_transform: transform.import_date_time('%A %d %B %Y')
 
   - property: contact

@@ -6,17 +6,17 @@ group = []
 
 #In [6]: d.score.describe()
 #Out[6]:
-#count    28719099.000000
-#mean            1.859272
-#std             2.212058
-#min             0.003201
-#25%             0.773457
-#50%             1.358657
-#75%             2.232349
-#max           221.910415
+#count    7428244.000000
+#mean           3.353387
+#std            3.220209
+#min            0.219735
+#25%            1.734940
+#50%            2.633749
+#75%            4.018773
+#max          158.159691
 #dtype: float64
 
-threshold = 2
+threshold = 2.6
 uniqueness = 125000
 skipped=0
 added = 0

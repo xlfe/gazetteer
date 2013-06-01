@@ -22,15 +22,16 @@ from collections import defaultdict
 from google.appengine.ext import ndb
 
 class EmploymentNotice(ndb.Model):
-   salary = ndb.StringProperty()
+   salary = ndb.IntegerProperty(indexed=True)
    NoticeNumber = ndb.IntegerProperty()
    classification = ndb.StringProperty()
    PSGazette = ndb.StringProperty()
+   date_gazetted = ndb.DateTimeProperty(indexed=True)
    text = ndb.TextProperty()
    documentation = ndb.TextProperty()
    toapply = ndb.TextProperty()
    ending = ndb.TextProperty()
-   closing_date = ndb.DateProperty()
+   closing_date = ndb.DateTimeProperty()
    contact = ndb.StringProperty()
    location = ndb.StringProperty()
    jobtitle = ndb.StringProperty()
@@ -50,28 +51,27 @@ def ngrams(tokens, MIN_N=3, MAX_N=3):
         for j in xrange(i+MIN_N, min(n_tokens, i+MAX_N)+1):
             yield tokens[i:j]
 
-def calc_intersect(results,number=10):
+def calc_intersect(terms,number=15):
 
     intersect = defaultdict(int)
-    for r in results:
 
-        if r is None:
+    for term in terms:
+
+        if term is None:
             continue
 
-        scores = r.scores.split('],')
+        for doc_details in term.scores.split('],'):
 
-        for score in scores:
+            notice,score = doc_details[2:].split(',')
+            notice= int(notice)
+            score = float(score.replace(']',''))
 
-            nn,s = score[2:].split(',')
-            nn= int(nn)
-            s=float(s.replace(']',''))
-
-            intersect[nn] += 1
+            intersect[notice] += 1#score
 
 
-    return sorted(intersect,key=lambda k:intersect[k],reverse=False)[:number]
+    return sorted(intersect,key=lambda k:intersect[k],reverse=True)[:number]
 
-
+#hybrid of count and score based on number of terms...
 
 
 
@@ -81,16 +81,20 @@ class MainHandler(webapp2.RequestHandler):
     def get(self):
 
 
+        #for i in range(100):
+        #    query = EmploymentNotice.query().fetch(500,keys_only=True)
+        #    ndb.delete_multi(query)
+        #return
+
+
+
         q = self.request.get('q')
         term_count = defaultdict(int)
         terms = []
 
-
-        for w in re.split('\W',re.sub('[^A-Za-z]+',' ',q)):
-            if len(w) > 2:
-                terms.extend([t for t in ngrams(w.lower())])
-
-
+        for w in re.split('\W',re.sub('[^a-z]+',' ',q.lower())):
+            if len(w) > 3:
+                terms.append(w)
 
         for t in terms:
             term_count[t] += 1
@@ -111,12 +115,12 @@ class MainHandler(webapp2.RequestHandler):
 
         results = []
         for l in later:
-            results.append(l.get_result().to_dict())
+            results.append(l.get_result())
 
 
 
 
-        self.response.write(json.dumps(results,indent=1))
+        self.response.write(json.dumps([r.to_dict() for r in results if r is not None],indent=1))
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)

@@ -1,4 +1,6 @@
 data
+.DS_Store
+*.pyc
 *.csv
 .idea/
 *.txt
