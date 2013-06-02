@@ -1,0 +1,139 @@
+    1  who
+    2  wajig install libcap2-bin
+    3  whereis mosh-server
+    4  setcap 'cap_net_bind_service=+ep' /usr/bin/mosh-server
+    5  sudo setcap 'cap_net_bind_service=+ep' /usr/bin/mosh-server
+    6  ll
+    7  cd govhack2013/
+    8  ll
+    9  ln -s ../csvs ./data
+   10  ll
+   11  cat ./data/employments.csv | python calc_tdidf.py ending > tdidf.txt
+   12  cat tdidf.txt 
+   13  cat ./data/employments.csv | python calc_tdidf.py ending >| tdidf.txt
+   14  ll
+   15  ll -h
+   16  head tdidf.txt 
+   17  vim tdidf.txt 
+   18  cat tdidf.txt | python cut.py |head
+   19  cat tdidf.txt | python cut.py | head
+   20  ll
+   21  htop
+   22  ll
+   23  cd govhack2013/
+   24  ll
+   25  htop
+   26  s3cmd --configure
+   27  clear
+   28  s3cmd ls s3://APS_Employment_Gazette
+   29  mkdir csvs
+   30  s3cmd sync s3://APS_Employment_Gazette/csvs/ ./csvs/
+   31  ifconfig
+   32  ll
+   33  mkdir govhack2013
+   34  screen
+   35  cd govhack2013
+   36  ll
+   37  vim tdidf.txt
+   38  cd govhack2013/
+   39  ll
+   40  vim tdidf.txt 
+   41  ll
+   42  cat tdidf.txt | python cut.py > stats.csv
+   43  ll -h
+   44  easy_install pandas
+   45  sudo easy_install pandas
+   46  wajig install numpy scipy
+   47  wajig install python-numpy python scipy
+   48  wajig install python-numpy python-scipy
+   49  sudo easy_install scipy numpy
+   50  sudo easy_install numpy
+   51  wajig install python-numpy python-scipy
+   52* sudo apt-get updatec
+   53  wajig install python-numpy python-scipy
+   54  sudo easy_install pandas
+   55  ipython
+   56  vim stats.csv 
+   57  ipython notebook --pylab inline
+   58  sudo easy_install ipython-notebook
+   59  wajig install ipython-notebook
+   60  ipython notebook --pylab inline
+   61  ipython profile create nbserver
+   62  ipython notebook --profile=nbserver
+   63  LL
+   64  ll
+   65  ipython profile create nbserver
+   66  find ~/ | grep python
+   67  vim /home/ubuntu/.config/ipython/profile_nbserver/ipython_notebook_config.py
+   68  ipython notebook --profile=nbserver
+   69  ipython
+   70  head stats.csv 
+   71  ll
+   72  head tdidf.txt 
+   73  history
+   74  history | grep data
+   75  cat ./data/employments.csv | python collate.py | head
+   76  head ./data/employments.csv 
+   77  cat ./tdidf.txt | python collate.py | head
+   78  cat ./tdidf.txt | head -n100000| python collate.py | head
+   79  cat ./tdidf.txt | head -n100000| wc
+   80  cat ./tdidf.txt | head -n100000| sort | python collate.py | head
+   81  head tdidf.txt 
+   82  cat ./tdidf.txt | head -n100000| sort | python collate.py | head
+   83  python collate.py 
+   84  echo 'hmm' | python collate.py 
+   85  echo 'hmm\tdd' | python collate.py 
+   86  cat ./tdidf.txt | head -n100000| sort | python collate.py 
+   87  cat ./tdidf.txt | head -n100000| sort | python collate.py | head
+   88  cat ./tdidf.txt | head -n100000| sort | python collate.py | sort -n -r | head
+   89  cat ./tdidf.txt | sort | python collate.py | sort -n -r | head
+   90  cat ./tdidf.txt | sort | python collate.py | sort -n -r | most
+   91  ll
+   92  head sorted_sdidf.txt 
+   93  cat sorted_sdidf.txt | python collate.py | sort -n -r | most
+   94  ll
+   95  cat sorted_sdidf.txt | python collate.py | sort -n -r | most
+   96  ll
+   97  cat sorted_sdidf.txt | python collate.py | sort -n -r | most
+   98  ll
+   99  vim stats.csv 
+  100  history | grep idf
+  101  cat ./data/employments.csv| head -n 1000 | python calc_tdidf.py ending 
+  102  cat ./data/employments.csv| head -n 10 | python calc_tdidf.py ending 
+  103  cat ./data/employments.csv| head -n 10 | python calc_tdidf.py ending | sort | most
+  104  cat ./data/employments.csv | python calc_tdidf.py ending | sort >| sorted_sdidf.txt 
+  105  head sorted_sdidf.txt 
+  106  cat sorted_sdidf.txt | python collate.py | sort -n -r | most
+  107  ll
+  108  cat sorted_sdidf.txt | head -n1000 | python cut.py 
+  109  cat sorted_sdidf.txt | python cut.py >| stats.csv 
+  110  vim stats.csv 
+  111  cat sorted_sdidf.txt | python collate.py | sort -n -r | most
+  112  cat sorted_sdidf.txt|head -n100 | python collate.py | sort -n -r | most
+  113  cat sorted_sdidf.txt|head -n100 | python collate.py | sort -n -r
+  114  cat sorted_sdidf.txt|head -n100 | python collate.py 
+  115  cat sorted_sdidf.txt|head -n100 | python collate.py | most
+  116  cat sorted_sdidf.txt | python collate.py > searchindex.json
+  117  ll
+  118  ll -h
+  119  history > history.saturdayarvo
+  120  wc history.saturdayarvo 
+  121  ll
+  122  cat sorted_sdidf.txt|head -n100 | python collate.py | most
+  123  cat sorted_sdidf.txt | python collate.py > searchindex.csv
+  124  head searchindex.csv 
+  125  wget http://googleappengine.googlecode.com/files/google_appengine_1.8.0.zip
+  126  unzip google_appengine_1.8.0.zip 
+  127  wajig install unzip
+  128  unzip google_appengine_1.8.0.zip 
+  129  ll
+  130  cd apsjobshistoricsearch/
+  131  python ../google_appengine/appcfg.py upload_data --config_file=bulkloader.yaml
+  132  python ../google_appengine/appcfg.py upload_data --config_file=bulkloader.yaml --filename=../searchindex.csv --kind=searchindex --url=http://apsjobshistoricsearch.appspot.com/_ah/remote_api
+  133  touch csv_fix.py
+  134  python ../google_appengine/appcfg.py upload_data --config_file=bulkloader.yaml --filename=../searchindex.csv --kind=searchindex --url=http://apsjobshistoricsearch.appspot.com/_ah/remote_api
+  135  ll
+  136  python ../google_appengine/appcfg.py upload_data --config_file=bulkloader.yaml --filename=../searchindex.csv --kind=searchindex --url=http://apsjobshistoricsearch.appspot.com/_ah/remote_api
+  137  vim ../searchindex.csv 
+  138  python ../google_appengine/appcfg.py upload_data --config_file=bulkloader.yaml --filename=../searchindex.csv --kind=searchindex --url=http://apsjobshistoricsearch.appspot.com/_ah/remote_api
+  139  history > history.transfer
