@@ -51,9 +51,11 @@
     <p><article></p>
 
 <form id='searchform'>
-   <input class="searchbox" type="search" placeholder="enter some search keywords" name="q">
+   <input class="searchbox" type="search" placeholder="enter upto 15 keywords to search for" name="q">
 </form>
-
+    <span id="loading">Loading...</span>
+    <span id="random">500 jobs (selected randomly)</span>
+    <span id="other">.............................. &nbsp; </span>
 
 
 
@@ -65,6 +67,20 @@
   line-height: 1.5em;
   width: 640px;
   text-rendering: optimizeLegibility;
+}
+
+#random,#loading,#other {
+
+    position: relative;
+    margin:0px;
+    padding: 0px;
+    top: -50px;
+    color: grey;
+    font-variant: small-caps;
+}
+
+#other {
+    color: #fff;
 }
 
 #charts {
@@ -158,14 +174,33 @@
   vertical-align: top;
 }
 
-#flight-list div .showdetail {
+#flight-list div.detail {
+    background-color: rgba(0, 130, 255, 0.1);
+    padding-left: -6px;
+    margin-left: -6px;
+    font-size: smaller;
+    line-height: 1.3em;
+    display: none;
+}
+
+#flight-list div.showdetail {
     color: #aeaeae;
     background-color: #fff;
     margin-left: -12px;
+    font-size: smaller;
 }
 
 #flight-list .early {
   color: green;
+}
+
+aside {
+    font-size: smaller;
+    height:100px;
+    overflow: hidden;
+    overflow-y: auto;
+    overflow-style: scrollbar;
+    line-height: 1.5em;
 }
 
 </style>
@@ -193,11 +228,13 @@
 <script src="/d3.v3.min.js"></script>
 <script>
 
+
+
 // (It's CSV, but GitHub Pages only gzip's JSON at the moment.)
 //d3.csv("http://apsjobshistoricsearch.appspot.com/", function(error, flights) {
 
-//var search_data = '/api/?home=False';
-var search_data = '/details.csv'
+var search_data = '/api/?home=False';
+//var search_data = '/details.csv'
 function doit() {
 
 
@@ -220,7 +257,6 @@ d3.csv(search_data, function(error, flights) {
     d.distance = +d.salary;
   });
 
-    console.log(flights.length);
   // Create the crossfilter for the relevant dimensions and groups.
   var flight = crossfilter(flights),
       all = flight.groupAll(),
@@ -232,7 +268,7 @@ d3.csv(search_data, function(error, flights) {
       //delays = delay.group(function(d) { return Math.floor(d / 10) * 10; }),
       distance = flight.dimension(function(d) { return d.distance; }),
       distances = distance.group(function(d) { return Math.floor(d / 2500) * 2500; }),
-      salary_ext = d3.extent(flights,function(d) { return Math.floor(d.distance / 5000 ) * 5000; }),
+      salary_ext = d3.extent(flights,function(d) { return Math.floor(d.distance / 2000 ) * 2000; }),
       d_ext = d3.extent(flights,function(d) { return d.date; });
 
 
@@ -329,38 +365,43 @@ d3.csv(search_data, function(error, flights) {
       var flightEnter = flight.enter().append("div")
           .attr("class", "flight");
 
-      //  salary
-      //  NoticeNumber
-      //  classification
-      //  PSGazette
-      //  jobtitle
-      //  ending
-      //  location
-      //  department
-      //  gazetted
-      //  jobtype
 
-
-      flightEnter.append("div")
-          .attr("class", "time")
-          .text(function(d) { return "$" + formatNumber(d.distance); });
 
       flightEnter.append("div")
           .attr("class", "delay")
           .text(function(d) { return d.department; });
 
       flightEnter.append("div")
+          .attr("class", "time")
+          .text(function(d) { return "$" + formatNumber(d.distance); });
+
+       flightEnter.append("div")
+                .attr("class","location")
+                .text(function(d) { return d.classification; });
+
+    flightEnter.append("div")
               .attr("class","location")
               .text(function(d) { return 'Location: '+ d.location; });
 
-      flightEnter.append("a").append("div")
+        flightEnter.append("a").append("div")
               .attr("class","showdetail")
               .text('show more detail...');
 
-      flightEnter.append("div")
-              .attr("class","detail")
-              .text('');
+      var details = flightEnter.append("div")
+              .attr("class","detail");
 
+
+        details.append('div').text(function(d){return 'Notice Number: ' + d.NoticeNumber;});
+        details.append('div').text(function(d){return 'Appeared in ' + d.PSGazette;});
+        details.append('div').text(function(d){return 'Type: ' + d.jobtype;});
+        details.append('div').text(function(d){return 'Job description: ' + d.ending;});
+
+
+
+      //  ending
+      //  department
+      //  gazetted
+      //  jobtype
       flight.exit().remove();
 
       flight.order();
@@ -558,8 +599,18 @@ d3.csv(search_data, function(error, flights) {
 
     return d3.rebind(chart, brush, "on");
   }
-});
 
+
+
+
+    $('#loading').hide();
+
+    $('.showdetail').on('click',function(){
+
+       $(this).parent().next().slideDown(500).show();
+       $(this).parent().slideUp(100);
+    });
+});
 };
 
 doit();
@@ -568,6 +619,8 @@ doit();
 
        if (event.keyCode == '13') {
                 search_data = '/api/?home=False&q='+$('input.searchbox').val();
+                $('#random').remove();
+                $('#loading').show();
                 doit();
 
             }
@@ -586,9 +639,9 @@ doit();
                 </article>
 
 <aside>
-
-<h3>GovHack 2013</h3>
-
+    Instructions:
+    <p>Enter upto 15 keywords to search job descriptions for specific terms.</p>
+<p>Drag the highlighted area on the charts to select a subset of the results</p>
 <hr>
 
 </aside>

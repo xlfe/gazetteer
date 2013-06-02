@@ -100,7 +100,7 @@ class MainHandler(webapp2.RequestHandler):
         else:
             json = False
 
-        limit = int(self.request.get('limit','100'))
+        limit = int(self.request.get('limit','500'))
         try:
             if limit > 500 or limit < 0:
                 limit = 500
@@ -138,6 +138,10 @@ class MainHandler(webapp2.RequestHandler):
             for d in docs:
                 later.append(EmploymentNotice.query().filter(EmploymentNotice.NoticeNumber==d).get_async())
 
+            results = []
+            for l in later:
+                results.append(l.get_result())
+
         else:
             #get 100 random documents...
 
@@ -151,16 +155,12 @@ class MainHandler(webapp2.RequestHandler):
             #max      10606766.000000
             #dtype: float64
 
-            later = []
-            for i in range(150):
-                start = random.randint(10350210,10606000)
-                later.append(EmploymentNotice.query()\
-                    .filter(EmploymentNotice.NoticeNumber==start)\
-                    .get_async())
-
-        results = []
-        for l in later:
-            results.append(l.get_result())
+            later = None
+            #for i in range(1):
+            offset = random.randint(0,60000)
+            if True:
+                results = EmploymentNotice.query()\
+                    .fetch(500,offset=offset)
 
         responses = []
 
