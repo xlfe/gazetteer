@@ -200,7 +200,7 @@ aside {
     overflow: hidden;
     overflow-y: auto;
     overflow-style: scrollbar;
-    line-height: 1.5em;
+    line-height: 1em;
 }
 
 </style>
@@ -280,8 +280,8 @@ d3.csv(search_data, function(error, flights) {
         .round(d3.time.day.round)
       .x(d3.time.scale()
         .domain([d3.time.month.floor(d_ext[0]),d3.time.month.ceil(d_ext[1])])
-        .rangeRound([0, 10 * 90]))
-        .filter([new Date(2010, 1, 1), new Date(2011, 1, 1)]),
+        .rangeRound([0, 10 * 90])),
+//        .filter([new Date(2010, 1, 1), new Date(2011, 1, 1)]),
 
     barChart()
         .dimension(distance)
@@ -321,6 +321,11 @@ d3.csv(search_data, function(error, flights) {
     chart.each(render);
     list.each(render);
     d3.select("#active").text(formatNumber(all.value()));
+    $('.showdetail').on('click',function(){
+
+       $(this).parent().next().slideDown(500).show();
+       $(this).parent().slideUp(100);
+    });
   }
 
   // Like d3.time.format, but faster.
@@ -605,11 +610,6 @@ d3.csv(search_data, function(error, flights) {
 
     $('#loading').hide();
 
-    $('.showdetail').on('click',function(){
-
-       $(this).parent().next().slideDown(500).show();
-       $(this).parent().slideUp(100);
-    });
 });
 };
 
