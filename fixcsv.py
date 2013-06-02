@@ -19,4 +19,5 @@ for line in sys.stdin.readlines():
 
     cells.append(cells[3][5:])
 
+
     print ','.join(c for c in cells)

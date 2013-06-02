@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 import webapp2
+import random
 import json
 import re
 import datetime
@@ -31,7 +32,7 @@ class EmploymentNotice(ndb.Model):
    documentation = ndb.TextProperty()
    toapply = ndb.TextProperty()
    ending = ndb.TextProperty()
-   closing_date = ndb.DateTimeProperty()
+   #closing_date = ndb.DateTimeProperty()
    contact = ndb.StringProperty()
    location = ndb.StringProperty()
    jobtitle = ndb.StringProperty()
@@ -51,7 +52,7 @@ def ngrams(tokens, MIN_N=3, MAX_N=3):
         for j in xrange(i+MIN_N, min(n_tokens, i+MAX_N)+1):
             yield tokens[i:j]
 
-def calc_intersect(terms,number=15):
+def calc_intersect(terms,number=500):
 
     intersect = defaultdict(int)
 
@@ -86,42 +87,121 @@ class MainHandler(webapp2.RequestHandler):
         #    ndb.delete_multi(query)
         #return
 
+        if self.request.get('home',True) is True:
+
+            return self.redirect('/index.html');
 
 
-        q = self.request.get('q')
-        term_count = defaultdict(int)
-        terms = []
 
-        for w in re.split('\W',re.sub('[^a-z]+',' ',q.lower())):
-            if len(w) > 3:
-                terms.append(w)
+        q = self.request.get('q',None)
+        json = self.request.get('json',None)
+        if json is not None:
+            json = True
+        else:
+            json = False
 
-        for t in terms:
-            term_count[t] += 1
+        limit = int(self.request.get('limit','100'))
+        try:
+            if limit > 500 or limit < 0:
+                limit = 500
+        except:
+            limit = 500
 
         later = []
-        for t in term_count:
-            later.append(searchindex.query().filter(searchindex.token==t).get_async())
+
+        if q is not None:
+            term_count = defaultdict(int)
+            terms = []
+
+            for w in re.split('\W',re.sub('[^a-z]+',' ',q.lower())):
+                if len(w) > 3:
+                    terms.append(w)
+
+            for t in terms:
+                term_count[t] += 1
+
+            later = []
+            #maximum of 15 terms...
+            i=0
+            for t in sorted(term_count,key=lambda k:term_count[k],reverse=True):
+                i+=1
+                if i>15:
+                    break
+                later.append(searchindex.query().filter(searchindex.token==t).get_async())
+
+            results = []
+            for l in later:
+                results.append(l.get_result())
+
+            docs = calc_intersect(results,limit)
+            later = []
+            for d in docs:
+                later.append(EmploymentNotice.query().filter(EmploymentNotice.NoticeNumber==d).get_async())
+
+        else:
+            #get 100 random documents...
+
+            #count       76662.000000
+            #mean     10477858.150492
+            #std         71319.544862
+            #min      10350210.000000
+            #25%      10416019.250000
+            #50%      10478853.000000
+            #75%      10537770.750000
+            #max      10606766.000000
+            #dtype: float64
+
+            later = []
+            for i in range(150):
+                start = random.randint(10350210,10606000)
+                later.append(EmploymentNotice.query()\
+                    .filter(EmploymentNotice.NoticeNumber==start)\
+                    .get_async())
 
         results = []
         for l in later:
             results.append(l.get_result())
 
+        responses = []
 
-        docs = calc_intersect(results)
-        later = []
-        for d in docs:
-            later.append(EmploymentNotice.query().filter(EmploymentNotice.NoticeNumber==d).get_async())
+        included_fields = ['salary','NoticeNumber','classification','PSGazette',
+                           'ending','location','jobtitle','jobtype','department',]
 
-        results = []
-        for l in later:
-            results.append(l.get_result())
+        for r in results:
+            if r is None:
+                continue
+
+            dd = {}
+            rd = r.to_dict()
+            for f in included_fields:
+#                if f not in rd:
+ #                   continue
+                if len(str(rd[f])) > 4096:
+                    dd[f] = rd[f][:4096] + '....'
+                else:
+                    dd[f] = rd[f]
+
+            dd['gazetted'] = str(r.date_gazetted)
+            responses.append(dd)
+
+        if json:
+            self.response.write(json.dumps(responses,indent=1))
+        else:
+            #csv
+
+            header = []
+            for d in responses[0]:
+                header.append(d)
+
+            self.response.write(','.join(h for h in header))
+            self.response.write('\n')
+
+            for d in responses:
+                self.response.write(','.join(str(d[h]) for h in header))
+                self.response.write('\n')
 
 
-
-
-        self.response.write(json.dumps([r.to_dict() for r in results if r is not None],indent=1))
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/api/.*', MainHandler)
 ], debug=True)

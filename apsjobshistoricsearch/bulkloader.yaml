@@ -89,9 +89,9 @@ transformers:
     external_name: ending
     import_transform: db.Text
 
-  - property: closing_date
-    external_name: closing-date
-    import_transform: transform.import_date_time('%A %d %B %Y')
+#  - property: closing_date
+#    external_name: closing-date
+#    import_transform: transform.import_date_time('%A %d %B %Y')
 
   - property: contact
     external_name: contact

@@ -12,8 +12,16 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
-- url: .*
+- url: /api/.*
   script: main.app
+
+- url: /(.+)
+  static_files: templates/\1
+  upload: templates/.*
+
+- url: /
+  static_files: templates/index.html
+  upload: templates/index\.html
 
 libraries:
 - name: webapp2
